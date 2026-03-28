@@ -1,0 +1,21 @@
+{
+  "name": "project-management",
+  "version": "1.0.0",
+  "description": "A project management platform",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "backend"
+  ],
+  "author": "uday saini",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "prettier": "3.8.1"
+  }
+}
