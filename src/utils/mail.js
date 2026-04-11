@@ -5,7 +5,7 @@ const sendmEmail = async (options) => {
     const mailGenerator = new Mailgen({
         theme: "default",
         product: {
-            name: "ProjM",
+            name: "NexTask",
             link: "https://mailgen.js/",
         },
     })
@@ -23,7 +23,7 @@ const sendmEmail = async (options) => {
     })
 
     const mail={
-        from: "mail.ProjM@example.com",
+        from: "mail.NexTask@example.com",
         to: options.email,
         subject: options.subject,
         text: emailTextual,

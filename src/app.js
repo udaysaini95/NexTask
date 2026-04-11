@@ -40,12 +40,6 @@ app.use('/api/v1/auth', authRouter);
 
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
-app.get('/a', (req, res) => {
-  res.send('Hello a');
-});
 
 export default app;
