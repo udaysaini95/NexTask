@@ -67,10 +67,10 @@ const getProjects = asyncHandler(async (req, res) => {
 
 
 const createProjects = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
+  const { name, description } = req.body;
 
   const project = await Project.create({
-    title,
+    name,
     description,
     createdBy: new mongoose.Types.ObjectId(req.user._id),
   });

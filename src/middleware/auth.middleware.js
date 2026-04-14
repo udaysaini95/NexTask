@@ -1,10 +1,11 @@
-// this middleware will check if the user is authenticated or not by checking access token in the request
 
 import { User } from "../models/user.model.js";
 import { ProjectMember } from "../models/projectmember.model.js";
 import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/asynchandler.js";
 import jwt from "jsonwebtoken";
+
+// this middleware will check if the user is authenticated or not by checking access token in the request
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.accesstoken || req.header("Authorization")?.replace("Bearer ", "");
