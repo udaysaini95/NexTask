@@ -1,6 +1,6 @@
 import { Router } from 'express';
 // import controller here
-import { login } from '../controllers/auth.controller.js';
+import { login, refreshAccessToken } from '../controllers/auth.controller.js';
 import {registerUser} from '../controllers/auth.controller.js';
 import { logout } from '../controllers/auth.controller.js';
 import { verifyJWT } from '../middleware/auth.middleware.js';
@@ -12,6 +12,17 @@ import { verifyEmail } from '../controllers/auth.controller.js';
 import { validate } from '../middleware/validator.middleware.js';
 import { userregisterValidator } from '../validators/index.js';
 import { userLoginValidator } from '../validators/index.js';
+import { userForgotPasswordValidator } from '../validators/index.js';
+import { userResetForgotPasswordValidator } from '../validators/index.js';
+import { userChangeCurrentPasswordValidator } from '../validators/index.js';
+import { forgotPasswordRequest } from '../controllers/auth.controller.js';
+import { resetForgotPassword } from '../controllers/auth.controller.js';
+import { changePassword } from '../controllers/auth.controller.js';
+import { resendVerificationEmail } from '../controllers/auth.controller.js';
+
+
+
+
 
 const router = Router();
 // middle ware written
@@ -35,7 +46,9 @@ router.route('/current-user').get(verifyJWT, getCurrUser);
 router
   .route('change-password')
     .post(verifyJWT, userChangeCurrentPasswordValidator(), validate, changePassword);
-router.route('/resend-email-verification').post(verifyJWT,resendEmailVerification);
+router
+  .route('/resend-email-verification')
+  .post(verifyJWT, resendVerificationEmail);
 
 
 
