@@ -1,6 +1,7 @@
 // this middleware will check if the user is authenticated or not by checking access token in the request
 
 import { User } from "../models/user.model.js";
+import { ProjectMember } from "../models/projectmember.model.js";
 import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/asynchandler.js";
 import jwt from "jsonwebtoken";
@@ -27,6 +28,38 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, "Invalid access token");
     }
 })
+
+export const validateProjectPermission = (roles = []) => {
+    asyncHandler(async (req, res, next) => {
+
+         const projectId = req.params;
+
+         if (!projectId) {
+           throw new ApiError(400, 'project id is missing');
+         }
+
+         const project = await ProjectMember.findOne({
+           user: req.user._id,
+           project: projectId,
+         });
+        
+        if (!projectId) {
+          throw new ApiError(400, 'project is missing');
+        }
+
+        const givenRole = project.role;
+        req.user.role = givenRole;
+
+        if (!roles.includes(givenRole))
+        {
+            throw new ApiError(403,"You do not have permession to perform this action")
+        }
+
+        next(); // will allow to move to controller
+
+    })
+   
+}
 
 
 
