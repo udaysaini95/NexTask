@@ -6,7 +6,7 @@ import { Project } from '../models/project.model.js';
 import { ProjectMember } from '../models/projectmember.model.js';
 import { sendmEmail } from '../utils/mail.js';
 import mongoose from 'mongoose';
-import { AvailableUserRoles } from '../utils/constants.js';
+import { AvailableUserRoles, UserRolesEnum} from '../utils/constants.js';
 
 
 const getProjects = asyncHandler(async (req, res) => {
@@ -128,6 +128,11 @@ const deleteProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
 
   const project = await Project.findByIdAndDelete(projectId);
+  if (!project)
+  {
+    throw new ApiError(404, "Project not found");
+  }
+   // await ProjectMember.findOne({project:projectId}) instead add a pre hook in model
 
   return res.status(200).json(new ApiResponse(200, {}, "Project deleted successfully"));
 
@@ -234,8 +239,8 @@ const updateMemberRole = asyncHandler(async (req, res) => {
   }
 
   let projectmember = await ProjectMember.findOne({
-    user: new mongoose.Types.ObjectId(userId),
-    project: new mongoose.Types.ObjectId(projectId)
+    user:userId,
+    project:projectId
   });
 
   if (!projectmember) {
@@ -266,7 +271,7 @@ const updateMemberRole = asyncHandler(async (req, res) => {
 const removeMember = asyncHandler(async (req, res) => {
   const { projectId, userId } = req.params;
 
-  const projectmember = await ProjectMember.findOne({
+  let projectmember = await ProjectMember.findOne({
     user: new mongoose.Types.ObjectId(userId),
     project: new mongoose.Types.ObjectId(projectId),
   })
